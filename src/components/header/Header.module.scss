@@ -1,0 +1,17 @@
+.header {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-left: 24px;
+  gap: 24px;
+
+  .tabs {
+    padding-bottom: 2px;
+
+    .tab{
+      text-transform: capitalize;
+      padding-bottom: 4.5px;
+    }
+  }
+}
