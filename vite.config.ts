@@ -4,11 +4,7 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
-  plugins: [
-    react(),
-    viteTsconfigPaths(),
-    checker({ typescript: true })
-  ],
+  plugins: [react(), viteTsconfigPaths(), checker({ typescript: true })],
   server: {
     open: true
   }
