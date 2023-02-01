@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { observer } from 'mobx-react-lite';
+import rowsStore from 'stores/rowsStore';
 
-function App() {
-  return <div className="App"></div>;
-}
+const App: FC = () => {
+  const { rows, loading } = rowsStore;
+  rowsStore.getRows();
 
-export default App;
+  return <div className="App">{JSON.stringify(rows)}</div>;
+};
+
+export default observer(App);
