@@ -43,37 +43,7 @@ const App: FC = () => {
     <StyledEngineProvider injectFirst>
       <CssBaseline />
       <ThemeProvider theme={darkTheme}>
-        <Grid2 container spacing={0}>
-          <Grid2 xs={12}>
-            <Paper sx={{ height: '44px', border: '1px solid #414144' }} square>
-              <Header />
-            </Paper>
-          </Grid2>
-          <Grid2 xs={2}>
-            <Paper
-              sx={{ height: '44px', border: '1px solid #414144' }}
-              square
-            ></Paper>
-          </Grid2>
-          <Grid2 xs={10}>
-            <Paper
-              sx={{ height: '44px', border: '1px solid #414144' }}
-              square
-            ></Paper>
-          </Grid2>
-          <Grid2 xs={2}>
-            <Paper
-              sx={{ height: 'calc(100vh - 88px)', border: '1px solid #414144' }}
-              square
-            ></Paper>
-          </Grid2>
-          <Grid2 xs={10}>
-            <Paper
-              sx={{ height: 'calc(100vh - 88px)', border: '1px solid #414144' }}
-              square
-            ></Paper>
-          </Grid2>
-        </Grid2>
+        <Main />
       </ThemeProvider>
     </StyledEngineProvider>
   );
