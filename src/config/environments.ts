@@ -1,6 +1,6 @@
 const envs = import.meta.env;
 
 export default {
-  baseApiUrl: envs.BASE_API_URL,
-  id: envs.ID
+  baseApiUrl: envs.VITE_BASE_API_URL,
+  id: envs.VITE_ID
 };
