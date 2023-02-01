@@ -6,7 +6,7 @@ import Table from 'components/table';
 
 const Main: FC = () => {
   return (
-    <Grid2 container spacing={0}>
+    <Grid2 container spacing={0} sx={{ overflow: 'hidden' }}>
       <Grid2 xs={12}>
         <Paper sx={{ height: '44px', border: '1px solid #414144' }} square>
           <Header />
@@ -35,7 +35,9 @@ const Main: FC = () => {
           sx={{
             height: 'calc(100vh - 88px)',
             border: '1px solid #414144',
-            backgroundColor: '#202124'
+            backgroundColor: '#202124',
+            display: 'flex',
+            justifyContent: 'center'
           }}
           square
         >

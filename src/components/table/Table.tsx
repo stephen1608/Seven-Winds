@@ -47,12 +47,34 @@ const Table: FC = () => {
     <TableContainer sx={{ width: '99%', maxHeight: 'calc(100vh - 88px)' }}>
       <MuiTable>
         <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          <TableRow sx={{ height: '41px' }}>
+            <TableCell sx={{ paddingTop: '0', paddingBottom: '0' }}>
+              Dessert (100g serving)
+            </TableCell>
+            <TableCell
+              sx={{ paddingTop: '0', paddingBottom: '0' }}
+              align="right"
+            >
+              Calories
+            </TableCell>
+            <TableCell
+              align="right"
+              sx={{ paddingTop: '0', paddingBottom: '0' }}
+            >
+              Fat&nbsp;(g)
+            </TableCell>
+            <TableCell
+              align="right"
+              sx={{ paddingTop: '0', paddingBottom: '0' }}
+            >
+              Carbs&nbsp;(g)
+            </TableCell>
+            <TableCell
+              align="right"
+              sx={{ paddingTop: '0', paddingBottom: '0' }}
+            >
+              Protein&nbsp;(g)
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -61,13 +83,21 @@ const Table: FC = () => {
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" sx={{ color: '#fff' }}>
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right" sx={{ color: '#fff' }}>
+                {row.calories}
+              </TableCell>
+              <TableCell align="right" sx={{ color: '#fff' }}>
+                {row.fat}
+              </TableCell>
+              <TableCell align="right" sx={{ color: '#fff' }}>
+                {row.carbs}
+              </TableCell>
+              <TableCell align="right" sx={{ color: '#fff' }}>
+                {row.protein}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
