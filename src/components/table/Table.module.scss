@@ -1,0 +1,42 @@
+.container {
+  width: 99%;
+  max-height: calc(100vh - 88px);
+
+  .headerRow {
+    height: 41px;
+
+    .headerCell {
+      padding-top: 0;
+      padding-bottom: 0;
+      background-color: #2b2c2f;
+    }
+  }
+
+  .bodyRow {
+    padding: 0;
+
+    &:last-child td, &:last-child th {
+      border: 0
+    }
+
+    .icon {
+      padding: 0;
+    }
+
+    .levelCell {
+      color: #fff;
+      width: max-content;
+    }
+
+    .nameCell {
+      color: #fff;
+      width: 45%;
+    }
+
+    .bodyCell {
+      color: #fff;
+      width: 13%;
+    }
+  }
+
+}

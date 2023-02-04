@@ -66,7 +66,7 @@ export default {
   },
 
   async deleteRow(rowId: number): Promise<RowAddingFeedback | null> {
-    const response = await axios.post(
+    const response = await axios.delete(
       `/v1/outlay-rows/entity/${envs.id}/row/${rowId}/delete`
     );
     if (response.status != 200) {

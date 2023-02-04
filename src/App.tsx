@@ -6,13 +6,9 @@ import {
   StyledEngineProvider,
   ThemeProvider,
   createTheme,
-  responsiveFontSizes,
-  Paper
+  responsiveFontSizes
 } from '@mui/material';
-import Grid2 from '@mui/material/Unstable_Grid2';
-
 import Main from 'routes/main';
-import Header from 'components/header';
 
 const darkTheme: Theme = responsiveFontSizes(
   createTheme({

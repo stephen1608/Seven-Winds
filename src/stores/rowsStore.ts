@@ -72,6 +72,10 @@ class RowsStore {
       const response = await api.rows.updateRow(rowId, params);
       runInAction(() => {
         console.log(response);
+        const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
+        if (rowInd && response?.current) {
+          this.rowsTree.splice(rowInd, 1, response.current);
+        }
       });
     } catch (error) {
       console.error(error);
@@ -94,6 +98,10 @@ class RowsStore {
       console.error(error);
     } finally {
       runInAction(() => {
+        const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
+        if (rowInd) {
+          this.rowsTree.splice(rowInd, 1);
+        }
         this.loading = false;
       });
     }
