@@ -20,12 +20,29 @@
     }
 
     .icon {
-      padding: 0;
+      padding: 10px;
+      opacity: 80%;
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      
     }
 
     .levelCell {
       color: #fff;
       width: max-content;
+      padding: 7px;
+
+      .deleteIcon {
+        display: block;
+      }
+
+      .hideDeleteIcon {
+        display: none;
+      }
     }
 
     .nameCell {

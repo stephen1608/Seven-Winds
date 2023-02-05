@@ -54,6 +54,7 @@ enum fields {
 const Table: FC = () => {
   const { rowsTree } = rowsStore;
   const [editing, setEditing] = useState<RowInterface>(defaultRow);
+  const [deleteIconOnRow, setDeleteIconOnRow] = useState<number>(-1);
 
   useEffect(() => {
     rowsStore.getRows();
@@ -132,24 +133,25 @@ const Table: FC = () => {
                 scope="row"
                 className={classes.levelCell}
               >
-                <Tooltip
-                  title={
-                    <IconButton
-                      size="small"
-                      onClick={() => {
-                        rowsStore.deleteRow(row.id);
-                      }}
-                    >
-                      <DeleteOutlineIcon color="error" />
-                    </IconButton>
-                  }
-                  placement="right"
-                  className={classes.tooltip}
+                <IconButton
+                  size="small"
+                  className={classes.icon}
+                  onMouseEnter={() => setDeleteIconOnRow(row.id)}
+                  onMouseLeave={() => setDeleteIconOnRow(-1)}
                 >
-                  <IconButton size="small" className={classes.icon}>
-                    <TextSnippetIcon />
-                  </IconButton>
-                </Tooltip>
+                  <TextSnippetIcon />
+                  <DeleteOutlineIcon
+                    color="error"
+                    onClick={() => {
+                      rowsStore.deleteRow(row.id);
+                    }}
+                    className={
+                      deleteIconOnRow === row.id
+                        ? classes.deleteIcon
+                        : classes.hideDeleteIcon
+                    }
+                  />
+                </IconButton>
               </TableCell>
               <TableCell align="left" className={classes.nameCell}>
                 {editing?.id === row.id ? (
