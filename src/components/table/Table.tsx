@@ -43,67 +43,51 @@ const defaultRow = {
   child: []
 } as RowInterface;
 
+enum fields {
+  rowName = 'rowName',
+  salary = 'salary',
+  equipmentCosts = 'equipmentCosts',
+  overheads = 'overheads',
+  estimatedProfit = 'estimatedProfit'
+}
+
 const Table: FC = () => {
   const { rowsTree } = rowsStore;
   const [editing, setEditing] = useState<RowInterface>(defaultRow);
 
+  useEffect(() => {
+    rowsStore.getRows();
+  }, []);
+
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      console.log(event.target.id, event.target.value, editing);
-      switch (event.target.id) {
-        case 'salary-input': {
-          if (event.target.value !== '' && !Number.isNaN(event.target.value)) {
-            setEditing((row) => ({
-              ...row,
-              salary: Number(event.target.value)
-            }));
-          }
-          break;
+      if (event.target.id !== fields.rowName) {
+        if (!Number.isNaN(Number(event.target.value))) {
+          setEditing((row) => ({
+            ...row,
+            [event.target.id]: Number(event.target.value)
+          }));
+        } else {
+          console.log('NAN');
         }
-        case 'rowName-input': {
-          if (event.target.value !== '') {
-            setEditing((row) => ({
-              ...row,
-              rowName: event.target.value
-            }));
-          }
-          break;
-        }
-        case 'equipmentCosts-input': {
-          if (event.target.value !== '' && !Number.isNaN(event.target.value)) {
-            setEditing((row) => ({
-              ...row,
-              equipmentCosts: Number(event.target.value)
-            }));
-          }
-          break;
-        }
-        case 'overheads-input': {
-          if (event.target.value !== '' && !Number.isNaN(event.target.value)) {
-            setEditing((row) => ({
-              ...row,
-              overheads: Number(event.target.value)
-            }));
-          }
-          break;
-        }
-        case 'estimatedProfit-input': {
-          if (event.target.value !== '' && !Number.isNaN(event.target.value)) {
-            setEditing((row) => ({
-              ...row,
-              estimatedProfit: Number(event.target.value)
-            }));
-          }
-          break;
-        }
+      } else {
+        setEditing((row) => ({
+          ...row,
+          [fields.rowName]: event.target.value
+        }));
       }
     },
     []
   );
 
-  useEffect(() => {
-    rowsStore.getRows();
-  }, []);
+  const onKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key !== 'Enter') return;
+      rowsStore.updateRow(editing.id, { ...editing });
+      setEditing(defaultRow);
+    },
+    [editing]
+  );
 
   return (
     <TableContainer className={classes.container}>
@@ -171,16 +155,13 @@ const Table: FC = () => {
                 {editing?.id === row.id ? (
                   <TextField
                     variant="outlined"
-                    id="rowName-input"
+                    id={fields.rowName}
+                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.rowName}
                     onChange={onChange}
-                    onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
-                      if (event.key !== 'Enter') return;
-                      rowsStore.updateRow(editing.id, { ...editing });
-                      setEditing(defaultRow);
-                    }}
+                    onKeyDown={onKeyDown}
                   />
                 ) : (
                   row.rowName
@@ -190,16 +171,13 @@ const Table: FC = () => {
                 {editing?.id === row.id ? (
                   <TextField
                     variant="outlined"
-                    id="salary-input"
+                    id={fields.salary}
+                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.salary}
                     onChange={onChange}
-                    onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
-                      if (event.key !== 'Enter') return;
-                      rowsStore.updateRow(editing.id, { ...editing });
-                      setEditing(defaultRow);
-                    }}
+                    onKeyDown={onKeyDown}
                   />
                 ) : (
                   row.salary
@@ -209,16 +187,13 @@ const Table: FC = () => {
                 {editing?.id === row.id ? (
                   <TextField
                     variant="outlined"
-                    id="equipmentCosts-input"
+                    id={fields.equipmentCosts}
+                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.equipmentCosts}
                     onChange={onChange}
-                    onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
-                      if (event.key !== 'Enter') return;
-                      rowsStore.updateRow(editing.id, { ...editing });
-                      setEditing(defaultRow);
-                    }}
+                    onKeyDown={onKeyDown}
                   />
                 ) : (
                   row.equipmentCosts
@@ -228,16 +203,13 @@ const Table: FC = () => {
                 {editing?.id === row.id ? (
                   <TextField
                     variant="outlined"
-                    id="overheads-input"
+                    id={fields.overheads}
+                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.overheads}
                     onChange={onChange}
-                    onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
-                      if (event.key !== 'Enter') return;
-                      rowsStore.updateRow(editing.id, { ...editing });
-                      setEditing(defaultRow);
-                    }}
+                    onKeyDown={onKeyDown}
                   />
                 ) : (
                   row.overheads
@@ -247,16 +219,13 @@ const Table: FC = () => {
                 {editing?.id === row.id ? (
                   <TextField
                     variant="outlined"
-                    id="estimatedProfit-input"
+                    id={fields.estimatedProfit}
+                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.estimatedProfit}
                     onChange={onChange}
-                    onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
-                      if (event.key !== 'Enter') return;
-                      rowsStore.updateRow(editing.id, { ...editing });
-                      setEditing(defaultRow);
-                    }}
+                    onKeyDown={onKeyDown}
                   />
                 ) : (
                   row.estimatedProfit

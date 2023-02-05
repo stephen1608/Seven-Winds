@@ -73,7 +73,7 @@ class RowsStore {
       runInAction(() => {
         console.log(response);
         const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
-        if (rowInd && response?.current) {
+        if (rowInd >= 0 && response?.current) {
           this.rowsTree.splice(rowInd, 1, response.current);
         }
       });
@@ -99,7 +99,7 @@ class RowsStore {
     } finally {
       runInAction(() => {
         const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
-        if (rowInd) {
+        if (rowInd >= 0) {
           this.rowsTree.splice(rowInd, 1);
         }
         this.loading = false;
