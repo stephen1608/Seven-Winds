@@ -4,7 +4,8 @@ import React, {
   useEffect,
   useState,
   KeyboardEvent,
-  ChangeEvent
+  ChangeEvent,
+  MouseEvent
 } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
@@ -15,11 +16,12 @@ import {
   TableRow,
   TableBody,
   IconButton,
-  Tooltip,
   TextField
 } from '@mui/material';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
+import EndAdornment from 'components/endAdornment';
 
 import { RowInterface } from 'types/entityType';
 
@@ -29,7 +31,7 @@ import classes from './Table.module.scss';
 
 const defaultRow = {
   id: 0,
-  rowName: 'Новая работа',
+  rowName: '',
   total: 0,
   salary: 0,
   mimExploitation: 0,
@@ -52,12 +54,20 @@ enum fields {
 }
 
 const Table: FC = () => {
-  const { rowsTree } = rowsStore;
+  const { rowsTree, loading } = rowsStore;
   const [editing, setEditing] = useState<RowInterface>(defaultRow);
   const [deleteIconOnRow, setDeleteIconOnRow] = useState<number>(-1);
 
   useEffect(() => {
-    rowsStore.getRows();
+    const addFirstRow = async () => {
+      await rowsStore.getRows();
+      const newRow = await rowsStore.addRow(defaultRow);
+      if (newRow) {
+        setEditing(newRow);
+      }
+    };
+
+    if (rowsTree.length === 0) addFirstRow();
   }, []);
 
   const onChange = useCallback(
@@ -81,13 +91,30 @@ const Table: FC = () => {
     []
   );
 
+  const updateRow = () => {
+    rowsStore.updateRow(editing.id, { ...editing });
+    setEditing(defaultRow);
+  };
+
   const onKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
       if (event.key !== 'Enter') return;
-      rowsStore.updateRow(editing.id, { ...editing });
-      setEditing(defaultRow);
+      updateRow();
     },
     [editing]
+  );
+
+  const onIconClick = useCallback(
+    async (event: MouseEvent<SVGSVGElement, globalThis.MouseEvent>) => {
+      const id = event.currentTarget.getAttribute('row-id');
+      if (id) {
+        const newRow = await rowsStore.addRow(defaultRow, Number(id));
+        if (newRow) {
+          setEditing(newRow);
+        }
+      }
+    },
+    []
   );
 
   return (
@@ -139,7 +166,7 @@ const Table: FC = () => {
                   onMouseEnter={() => setDeleteIconOnRow(row.id)}
                   onMouseLeave={() => setDeleteIconOnRow(-1)}
                 >
-                  <TextSnippetIcon />
+                  <TextSnippetIcon row-id={row.id} onClick={onIconClick} />
                   <DeleteOutlineIcon
                     color="error"
                     onClick={() => {
@@ -158,12 +185,14 @@ const Table: FC = () => {
                   <TextField
                     variant="outlined"
                     id={fields.rowName}
-                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.rowName}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
+                    InputProps={{
+                      endAdornment: <EndAdornment onClick={updateRow} />
+                    }}
                   />
                 ) : (
                   row.rowName
@@ -174,12 +203,14 @@ const Table: FC = () => {
                   <TextField
                     variant="outlined"
                     id={fields.salary}
-                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.salary}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
+                    InputProps={{
+                      endAdornment: <EndAdornment onClick={updateRow} />
+                    }}
                   />
                 ) : (
                   row.salary
@@ -190,12 +221,14 @@ const Table: FC = () => {
                   <TextField
                     variant="outlined"
                     id={fields.equipmentCosts}
-                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.equipmentCosts}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
+                    InputProps={{
+                      endAdornment: <EndAdornment onClick={updateRow} />
+                    }}
                   />
                 ) : (
                   row.equipmentCosts
@@ -206,12 +239,14 @@ const Table: FC = () => {
                   <TextField
                     variant="outlined"
                     id={fields.overheads}
-                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.overheads}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
+                    InputProps={{
+                      endAdornment: <EndAdornment onClick={updateRow} />
+                    }}
                   />
                 ) : (
                   row.overheads
@@ -222,12 +257,14 @@ const Table: FC = () => {
                   <TextField
                     variant="outlined"
                     id={fields.estimatedProfit}
-                    row-id={editing.id}
                     size="small"
                     fullWidth
                     value={editing.estimatedProfit}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
+                    InputProps={{
+                      endAdornment: <EndAdornment onClick={updateRow} />
+                    }}
                   />
                 ) : (
                   row.estimatedProfit

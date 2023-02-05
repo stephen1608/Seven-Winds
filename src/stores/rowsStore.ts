@@ -49,12 +49,29 @@ class RowsStore {
   };
 
   @action
-  addRow = async (params: IProps): Promise<void> => {
+  addRow = async (
+    params: IProps,
+    rowId?: number
+  ): Promise<RowInterface | null> => {
+    let resp = null;
     try {
       this.loading = true;
       const response = await api.rows.createRowInEntity(params);
       runInAction(() => {
-        console.log(response);
+        if (!response?.current) return;
+
+        if (rowId) {
+          const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
+
+          if (rowInd >= 0) {
+            this.rowsTree.splice(rowInd + 1, 0, response.current);
+          }
+          resp = response?.current;
+        } else {
+          this.rowsTree.splice(0, 0, response?.current);
+        }
+
+        resp = response?.current;
       });
     } catch (error) {
       console.error(error);
@@ -63,6 +80,7 @@ class RowsStore {
         this.loading = false;
       });
     }
+    return resp;
   };
 
   @action
@@ -73,6 +91,7 @@ class RowsStore {
       runInAction(() => {
         console.log(response);
         const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
+
         if (rowInd >= 0 && response?.current) {
           this.rowsTree.splice(rowInd, 1, response.current);
         }
