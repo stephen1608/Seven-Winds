@@ -30,13 +30,15 @@ class RowsStore {
   }
 
   @action
-  getRows = async (): Promise<void> => {
+  getRows = async (): Promise<RowInterface[]> => {
+    let res = [] as RowInterface[];
     try {
       this.loading = true;
       const rows = await api.rows.getTreeRows();
 
       runInAction(() => {
         this.rowsTree = rows;
+        res = rows;
         console.log(rows);
       });
     } catch (error) {
@@ -46,6 +48,7 @@ class RowsStore {
         this.loading = false;
       });
     }
+    return res;
   };
 
   @action

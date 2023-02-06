@@ -54,21 +54,40 @@ enum fields {
 }
 
 const Table: FC = () => {
-  const { rowsTree, loading } = rowsStore;
+  const { rowsTree } = rowsStore;
   const [editing, setEditing] = useState<RowInterface>(defaultRow);
   const [deleteIconOnRow, setDeleteIconOnRow] = useState<number>(-1);
+  const [blockDeleting, setBlockDeleting] = useState<number>(defaultRow.id);
+  const [rowCount, setRowCount] = useState<number>(1);
 
   useEffect(() => {
     const addFirstRow = async () => {
-      await rowsStore.getRows();
-      const newRow = await rowsStore.addRow(defaultRow);
-      if (newRow) {
-        setEditing(newRow);
+      const rows = await rowsStore.getRows();
+      if (rows.length === 0) {
+        const newRow = await rowsStore.addRow(defaultRow);
+        if (newRow) {
+          setEditing(newRow);
+          setBlockDeleting(newRow.id);
+        }
       }
     };
 
-    if (rowsTree.length === 0) addFirstRow();
+    addFirstRow();
   }, []);
+
+  useEffect(() => {
+    const addFirstRow = async () => {
+      if (rowCount === 0) {
+        const newRow = await rowsStore.addRow(defaultRow);
+        if (newRow) {
+          setEditing(newRow);
+          setBlockDeleting(newRow.id);
+        }
+      }
+    };
+
+    addFirstRow();
+  }, [rowCount]);
 
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -78,14 +97,14 @@ const Table: FC = () => {
             ...row,
             [event.target.id]: Number(event.target.value)
           }));
-        } else {
-          console.log('NAN');
+          setBlockDeleting(Number(event.target.value));
         }
       } else {
         setEditing((row) => ({
           ...row,
           [fields.rowName]: event.target.value
         }));
+        setBlockDeleting(Number(event.target.value));
       }
     },
     []
@@ -94,6 +113,7 @@ const Table: FC = () => {
   const updateRow = () => {
     rowsStore.updateRow(editing.id, { ...editing });
     setEditing(defaultRow);
+    setBlockDeleting(defaultRow.id);
   };
 
   const onKeyDown = useCallback(
@@ -111,6 +131,8 @@ const Table: FC = () => {
         const newRow = await rowsStore.addRow(defaultRow, Number(id));
         if (newRow) {
           setEditing(newRow);
+          setBlockDeleting(newRow.id);
+          setRowCount((count) => count + 1);
         }
       }
     },
@@ -150,9 +172,11 @@ const Table: FC = () => {
               onClick={() => {
                 if (editing?.id === row.id) return;
                 setEditing(defaultRow);
+                setBlockDeleting(defaultRow.id);
               }}
               onDoubleClick={() => {
                 setEditing(row);
+                setBlockDeleting(row.id);
               }}
             >
               <TableCell
@@ -171,9 +195,11 @@ const Table: FC = () => {
                     color="error"
                     onClick={() => {
                       rowsStore.deleteRow(row.id);
+                      setRowCount((count) => count - 1);
+                      console.log('count - 1');
                     }}
                     className={
-                      deleteIconOnRow === row.id
+                      deleteIconOnRow === row.id && blockDeleting !== row.id
                         ? classes.deleteIcon
                         : classes.hideDeleteIcon
                     }
