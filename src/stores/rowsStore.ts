@@ -20,13 +20,15 @@ interface IProps {
 
 class RowsStore {
   @observable
-  rowsTree: Array<RowInterface> | [] = [];
+  rowsTree: Array<RowInterface> | [];
 
   @observable
-  loading: boolean = false;
+  loading: boolean;
 
-  constructor() {
+  constructor(rowsTree: Array<RowInterface> | [], loading: boolean) {
     makeObservable(this);
+    this.rowsTree = rowsTree;
+    this.loading = loading;
   }
 
   @action
@@ -43,6 +45,7 @@ class RowsStore {
       });
     } catch (error) {
       console.error(error);
+      this.rowsTree = [];
     } finally {
       runInAction(() => {
         this.loading = false;
@@ -130,5 +133,7 @@ class RowsStore {
   };
 }
 
-const rowsStore = new RowsStore();
+const rowsStoreInitial = new RowsStore([], false);
+const tree = await rowsStoreInitial.getRows();
+const rowsStore = new RowsStore(tree, false);
 export default rowsStore;

@@ -58,36 +58,20 @@ const Table: FC = () => {
   const [editing, setEditing] = useState<RowInterface>(defaultRow);
   const [deleteIconOnRow, setDeleteIconOnRow] = useState<number>(-1);
   const [blockDeleting, setBlockDeleting] = useState<number>(defaultRow.id);
-  const [rowCount, setRowCount] = useState<number>(1);
 
   useEffect(() => {
+    if (rowsTree.length !== 0) return;
+
     const addFirstRow = async () => {
-      const rows = await rowsStore.getRows();
-      if (rows.length === 0) {
-        const newRow = await rowsStore.addRow(defaultRow);
-        if (newRow) {
-          setEditing(newRow);
-          setBlockDeleting(newRow.id);
-        }
+      const newRow = await rowsStore.addRow(defaultRow);
+      if (newRow) {
+        setEditing(newRow);
+        setBlockDeleting(newRow.id);
       }
     };
 
     addFirstRow();
-  }, []);
-
-  useEffect(() => {
-    const addFirstRow = async () => {
-      if (rowCount === 0) {
-        const newRow = await rowsStore.addRow(defaultRow);
-        if (newRow) {
-          setEditing(newRow);
-          setBlockDeleting(newRow.id);
-        }
-      }
-    };
-
-    addFirstRow();
-  }, [rowCount]);
+  }, [rowsTree.length]);
 
   const onChange = useCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -132,7 +116,6 @@ const Table: FC = () => {
         if (newRow) {
           setEditing(newRow);
           setBlockDeleting(newRow.id);
-          setRowCount((count) => count + 1);
         }
       }
     },
@@ -195,7 +178,6 @@ const Table: FC = () => {
                     color="error"
                     onClick={() => {
                       rowsStore.deleteRow(row.id);
-                      setRowCount((count) => count - 1);
                       console.log('count - 1');
                     }}
                     className={
