@@ -40,9 +40,7 @@ const Main: FC = () => {
             justifyContent: 'center'
           }}
           square
-        >
-          
-        </Paper>
+        ></Paper>
       </Grid2>
     </Grid2>
   );
