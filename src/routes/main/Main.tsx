@@ -3,6 +3,7 @@ import { Paper } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import Header from 'components/header';
 import Table from 'components/table';
+import TreeGrid from 'components/treeGrid';
 
 const Main: FC = () => {
   return (
@@ -40,7 +41,9 @@ const Main: FC = () => {
             justifyContent: 'center'
           }}
           square
-        ></Paper>
+        >
+          <TreeGrid />
+        </Paper>
       </Grid2>
     </Grid2>
   );
