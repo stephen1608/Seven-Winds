@@ -18,6 +18,40 @@ interface IProps {
   supportCosts: number;
 }
 
+interface ListItem {
+  id: number;
+  rowName: string;
+  total: number;
+  salary: number;
+  mimExploitation: number;
+  machineOperatorSalary: number;
+  materials: number;
+  mainCosts: number;
+  supportCosts: number;
+  equipmentCosts: number;
+  overheads: number;
+  estimatedProfit: number;
+  currentLevel: number;
+  child: Array<RowInterface> | [];
+}
+
+const treeToList = (
+  currentTree: RowInterface[],
+  currentLevel: number,
+  endList: Array<ListItem>
+): void => {
+  currentTree.forEach((item) => {
+    if (item.child.length === 0) {
+      endList.push({ ...item, currentLevel });
+    } else if (item.child) {
+      treeToList(item.child, currentLevel++, endList);
+      endList.push({ ...item, currentLevel });
+    }
+  });
+
+  return;
+};
+
 class RowsStore {
   @observable
   rowsTree: Array<RowInterface> | [];
@@ -25,10 +59,18 @@ class RowsStore {
   @observable
   loading: boolean;
 
-  constructor(rowsTree: Array<RowInterface> | [], loading: boolean) {
+  @observable
+  list: Array<ListItem>;
+
+  constructor(
+    rowsTree: Array<RowInterface> | [],
+    loading: boolean,
+    list: Array<ListItem>
+  ) {
     makeObservable(this);
     this.rowsTree = rowsTree;
     this.loading = loading;
+    this.list = list;
   }
 
   @action
@@ -40,6 +82,7 @@ class RowsStore {
 
       runInAction(() => {
         this.rowsTree = rows;
+
         res = rows;
         console.log(rows);
       });
@@ -133,7 +176,10 @@ class RowsStore {
   };
 }
 
-const rowsStoreInitial = new RowsStore([], false);
+const rowsStoreInitial = new RowsStore([], false, []);
 const tree = await rowsStoreInitial.getRows();
-const rowsStore = new RowsStore(tree, false);
+const list = [] as Array<ListItem>;
+treeToList(tree, 0, list);
+
+const rowsStore = new RowsStore(tree, false, list);
 export default rowsStore;

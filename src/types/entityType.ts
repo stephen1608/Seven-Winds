@@ -11,5 +11,5 @@ export interface RowInterface {
   equipmentCosts: number;
   overheads: number;
   estimatedProfit: number;
-  child?: Array<RowInterface> | [];
+  child: Array<RowInterface> | [];
 }

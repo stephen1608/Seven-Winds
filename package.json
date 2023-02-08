@@ -28,11 +28,14 @@
     "vite-tsconfig-paths": "^4.0.5"
   },
   "devDependencies": {
+    "@syncfusion/ej2-react-treegrid": "^20.4.49",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "@vitejs/plugin-react": "latest",
+    "ag-grid-community": "29.0.0",
+    "ag-grid-react": "29.0.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "latest",
     "eslint-plugin-import": "latest",

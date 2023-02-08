@@ -41,7 +41,7 @@ const Main: FC = () => {
           }}
           square
         >
-          <Table />
+          
         </Paper>
       </Grid2>
     </Grid2>

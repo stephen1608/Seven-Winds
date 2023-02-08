@@ -19,29 +19,41 @@
       border: 0
     }
 
-    .icon {
-      padding: 10px;
-      opacity: 80%;
-      border-radius: 10px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      
-    }
-
     .levelCell {
       color: #fff;
       width: max-content;
       padding: 7px;
 
-      .deleteIcon {
-        display: block;
-      }
+      .icon {
+        padding: 10px;
+        opacity: 80%;
+        border-radius: 10px;
+  
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+  
+        position: relative;
+  
+        .deleteIcon {
+          display: block;
+        }
+  
+        .hideDeleteIcon {
+          display: none;
+        }
 
-      .hideDeleteIcon {
-        display: none;
+        .connectionLine {
+          position: absolute;
+          left: 0;
+          bottom: 20px;
+          width: 13px;
+          height: 60px;
+          border: 1px solid #C6C6C6;
+          border-top: none;
+          border-right: none;
+
+        }
       }
     }
 

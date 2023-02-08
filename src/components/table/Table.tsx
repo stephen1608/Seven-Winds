@@ -54,7 +54,7 @@ enum fields {
 }
 
 const Table: FC = () => {
-  const { rowsTree } = rowsStore;
+  const { rowsTree, list } = rowsStore;
   const [editing, setEditing] = useState<RowInterface>(defaultRow);
   const [deleteIconOnRow, setDeleteIconOnRow] = useState<number>(-1);
   const [blockDeleting, setBlockDeleting] = useState<number>(defaultRow.id);
@@ -148,7 +148,7 @@ const Table: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsTree.map((row) => (
+          {list.map((row) => (
             <TableRow
               key={row.id}
               className={classes.bodyRow}
@@ -186,6 +186,7 @@ const Table: FC = () => {
                         : classes.hideDeleteIcon
                     }
                   />
+                  <div className={classes.connectionLine} />
                 </IconButton>
               </TableCell>
               <TableCell align="left" className={classes.nameCell}>
@@ -203,7 +204,7 @@ const Table: FC = () => {
                     }}
                   />
                 ) : (
-                  row.rowName
+                  `${row.rowName}, level: ${row.currentLevel}`
                 )}
               </TableCell>
               <TableCell align="left" className={classes.bodyCell}>
