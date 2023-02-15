@@ -7,5 +7,8 @@ export default defineConfig({
   plugins: [react(), viteTsconfigPaths(), checker({ typescript: true })],
   server: {
     open: true
+  },
+  build: {
+    target: 'esnext'
   }
 });
