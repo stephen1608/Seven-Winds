@@ -42,6 +42,8 @@ const defaultRow = {
   equipmentCosts: 0,
   overheads: 0,
   estimatedProfit: 0,
+  level: 0,
+  parentId: 0,
   child: []
 } as RowInterface;
 
@@ -50,7 +52,9 @@ enum fields {
   salary = 'salary',
   equipmentCosts = 'equipmentCosts',
   overheads = 'overheads',
-  estimatedProfit = 'estimatedProfit'
+  estimatedProfit = 'estimatedProfit',
+  parentId = 'parentId',
+  level = 'level'
 }
 
 const Table: FC = () => {
@@ -63,7 +67,10 @@ const Table: FC = () => {
     if (rowsTree.length !== 0) return;
 
     const addFirstRow = async () => {
-      const newRow = await rowsStore.addRow(defaultRow);
+      const newRow = await rowsStore.addRow({
+        ...defaultRow,
+        [fields.parentId]: undefined
+      });
       if (newRow) {
         setEditing(newRow);
         setBlockDeleting(newRow.id);
@@ -111,10 +118,37 @@ const Table: FC = () => {
   const onIconClick = useCallback(
     async (event: MouseEvent<SVGSVGElement, globalThis.MouseEvent>) => {
       const id = event.currentTarget.getAttribute('row-id');
+      const parentId = event.currentTarget.getAttribute('parent-id');
+      const level = event.currentTarget.getAttribute('row-level');
       if (id) {
-        const newRow = await rowsStore.addRow(defaultRow, Number(id));
+        let newRow = null;
+        if (Number(parentId) > 0) {
+          newRow = await rowsStore.addRow(
+            {
+              ...defaultRow,
+              [fields.parentId]: Number(parentId)
+            },
+            Number(id)
+          );
+        } else {
+          newRow = await rowsStore.addRow(
+            { ...defaultRow, [fields.parentId]: undefined },
+            Number(id)
+          );
+        }
         if (newRow) {
-          setEditing(newRow);
+          if (Number(parentId) > 0) {
+            console.log(
+              JSON.stringify({ ...newRow, [fields.parentId]: Number(parentId) })
+            );
+            setEditing({
+              ...newRow,
+              [fields.parentId]: Number(parentId),
+              [fields.level]: Number(level)
+            });
+          } else {
+            setEditing({ ...newRow, [fields.parentId]: undefined });
+          }
           setBlockDeleting(newRow.id);
         }
       }
@@ -158,7 +192,7 @@ const Table: FC = () => {
                 setBlockDeleting(defaultRow.id);
               }}
               onDoubleClick={() => {
-                setEditing(row);
+                setEditing({ ...row, [fields.parentId]: row.id });
                 setBlockDeleting(row.id);
               }}
             >
@@ -180,6 +214,8 @@ const Table: FC = () => {
                 >
                   <TextSnippetIcon
                     row-id={row.id}
+                    parent-id={row.parentId}
+                    row-level={row.level}
                     onClick={onIconClick}
                     className={classes.textIcon}
                   />
@@ -214,7 +250,7 @@ const Table: FC = () => {
                     }}
                   />
                 ) : (
-                  `${row.rowName}, level: ${row.level}`
+                  `${row.rowName}, id: ${row.id}`
                 )}
               </TableCell>
               <TableCell align="left" className={classes.bodyCell}>
