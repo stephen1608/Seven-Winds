@@ -109,7 +109,6 @@ class RowsStore {
       const response = await api.rows.updateRow(rowId, params);
 
       runInAction(() => {
-        console.log(response);
         const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
 
         if (rowInd >= 0 && response?.current) {
