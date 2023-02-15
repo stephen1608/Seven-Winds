@@ -1,5 +1,7 @@
 # Seven-Winds
-## test case
+## Test case
+
+This web-application shows how i write my code and use my knowledge to build responisve, editable and live table
 
 ## What used
 
