@@ -139,9 +139,6 @@ const Table: FC = () => {
         }
         if (newRow) {
           if (Number(parentId) > 0) {
-            console.log(
-              JSON.stringify({ ...newRow, [fields.parentId]: Number(parentId) })
-            );
             setEditing({
               ...newRow,
               [fields.parentId]: Number(parentId),
