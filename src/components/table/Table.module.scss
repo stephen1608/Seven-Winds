@@ -34,6 +34,10 @@
         justify-content: space-between;
   
         position: relative;
+
+        .textIcon {
+          
+        }
   
         .deleteIcon {
           display: block;
@@ -45,9 +49,9 @@
 
         .connectionLine {
           position: absolute;
-          left: 0;
+          left: 5px;
           bottom: 20px;
-          width: 13px;
+          width: 8px;
           height: 60px;
           border: 1px solid #C6C6C6;
           border-top: none;

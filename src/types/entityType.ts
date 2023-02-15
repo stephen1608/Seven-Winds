@@ -12,4 +12,5 @@ export interface RowInterface {
   overheads: number;
   estimatedProfit: number;
   child: Array<RowInterface> | [];
+  level?: number;
 }

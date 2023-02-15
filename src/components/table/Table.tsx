@@ -54,7 +54,7 @@ enum fields {
 }
 
 const Table: FC = () => {
-  const { rowsTree, list } = rowsStore;
+  const { rowsTree } = rowsStore;
   const [editing, setEditing] = useState<RowInterface>(defaultRow);
   const [deleteIconOnRow, setDeleteIconOnRow] = useState<number>(-1);
   const [blockDeleting, setBlockDeleting] = useState<number>(defaultRow.id);
@@ -148,7 +148,7 @@ const Table: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {list.map((row) => (
+          {rowsTree.map((row) => (
             <TableRow
               key={row.id}
               className={classes.bodyRow}
@@ -172,13 +172,21 @@ const Table: FC = () => {
                   className={classes.icon}
                   onMouseEnter={() => setDeleteIconOnRow(row.id)}
                   onMouseLeave={() => setDeleteIconOnRow(-1)}
+                  sx={
+                    row.level
+                      ? { marginLeft: `${row.level * 16}px` }
+                      : { marginLeft: 0 }
+                  }
                 >
-                  <TextSnippetIcon row-id={row.id} onClick={onIconClick} />
+                  <TextSnippetIcon
+                    row-id={row.id}
+                    onClick={onIconClick}
+                    className={classes.textIcon}
+                  />
                   <DeleteOutlineIcon
                     color="error"
                     onClick={() => {
                       rowsStore.deleteRow(row.id);
-                      console.log('count - 1');
                     }}
                     className={
                       deleteIconOnRow === row.id && blockDeleting !== row.id
@@ -186,7 +194,9 @@ const Table: FC = () => {
                         : classes.hideDeleteIcon
                     }
                   />
-                  <div className={classes.connectionLine} />
+                  <div
+                    className={row.level ? classes.connectionLine : undefined}
+                  />
                 </IconButton>
               </TableCell>
               <TableCell align="left" className={classes.nameCell}>
@@ -204,7 +214,7 @@ const Table: FC = () => {
                     }}
                   />
                 ) : (
-                  `${row.rowName}, level: ${row.currentLevel}`
+                  `${row.rowName}, level: ${row.level}`
                 )}
               </TableCell>
               <TableCell align="left" className={classes.bodyCell}>
