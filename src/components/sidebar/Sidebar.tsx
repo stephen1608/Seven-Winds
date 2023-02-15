@@ -4,23 +4,12 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import classes from './Sidebar.module.scss';
 
-const data = [
-  'По объекту',
-  'Объекты',
-  'РД',
-  'МТО',
-  'СМР',
-  'График',
-  'МиМ',
-  'Рабочие',
-  'Капвложения',
-  'Бюджет'
-];
+import sidebarData from 'mocks/sidebarData';
 
 const Sidebar: FC = () => {
   return (
     <Box className={classes.container}>
-      {data.map((title) => (
+      {sidebarData.map((title) => (
         <Box className={classes.item} key={title}>
           <DashboardIcon color="primary" />
           <Typography className={classes.text} color="primary">
