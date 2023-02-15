@@ -43,7 +43,7 @@ const defaultRow = {
   overheads: 0,
   estimatedProfit: 0,
   level: 0,
-  parentId: 0,
+  parentId: undefined,
   child: []
 } as RowInterface;
 
@@ -69,6 +69,7 @@ const Table: FC = () => {
     const addFirstRow = async () => {
       const newRow = await rowsStore.addRow({
         ...defaultRow,
+        [fields.level]: 0,
         [fields.parentId]: undefined
       });
       if (newRow) {
@@ -192,7 +193,7 @@ const Table: FC = () => {
                 setBlockDeleting(defaultRow.id);
               }}
               onDoubleClick={() => {
-                setEditing({ ...row, [fields.parentId]: row.id });
+                setEditing(row);
                 setBlockDeleting(row.id);
               }}
             >

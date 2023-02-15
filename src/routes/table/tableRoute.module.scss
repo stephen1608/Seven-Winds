@@ -1,0 +1,33 @@
+.container {
+  overflow: hidden;
+
+  .element {
+    height: 44px;
+    border: 1px solid #414144;
+  }
+
+  .title {
+    height: 44px;
+    border: 1px solid #414144;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .text {
+      font-weight: 400;
+      font-size: 18px;
+      color: #FFFFFF;
+    }
+  }
+
+  .sidebar {
+    height: calc(100vh - 88px);
+  }
+
+  .body {
+    height: calc(100vh - 88px);
+    background-color: #202124;
+    display: flex;
+    justify-content: center;
+  }
+}

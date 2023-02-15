@@ -17,6 +17,7 @@ interface IProps {
   rowName: string;
   salary: number;
   supportCosts: number;
+  level?: number;
 }
 
 class RowsStore {
@@ -72,7 +73,12 @@ class RowsStore {
           const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
 
           if (rowInd >= 0) {
-            this.rowsTree.splice(rowInd + 1, 0, response.current);
+            const currentRow = this.rowsTree[rowInd];
+            this.rowsTree.splice(rowInd + 1, 0, {
+              ...response.current,
+              level: currentRow.level,
+              parentId: currentRow.parentId
+            });
           }
           resp = response?.current;
         } else {
@@ -101,7 +107,12 @@ class RowsStore {
         const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
 
         if (rowInd >= 0 && response?.current) {
-          this.rowsTree.splice(rowInd, 1, response.current);
+          const currentRow = this.rowsTree[rowInd];
+          this.rowsTree[rowInd] = {
+            ...response.current,
+            level: currentRow.level,
+            parentId: currentRow.parentId
+          };
         }
       });
     } catch (error) {
@@ -137,5 +148,5 @@ class RowsStore {
 
 const rowsStoreInitial = new RowsStore([], false);
 const tree = await rowsStoreInitial.getRows();
-const rowsStore = new RowsStore(transformList(tree), false);
+const rowsStore = new RowsStore(transformList(tree, 0), false);
 export default rowsStore;

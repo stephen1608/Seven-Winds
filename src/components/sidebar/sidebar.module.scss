@@ -1,0 +1,26 @@
+.container {
+  .item {
+    height: 32px;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding-left: 22px;
+    gap: 17px;
+
+    transition: background-color .15s linear;
+
+    .text {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+    }
+  }
+
+  :hover {
+    cursor: pointer;
+    background-color: #A1A1AA;
+  }
+}

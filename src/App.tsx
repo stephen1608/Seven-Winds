@@ -8,7 +8,7 @@ import {
   createTheme,
   responsiveFontSizes
 } from '@mui/material';
-import Main from 'routes/main';
+import TableRoute from 'routes/table';
 
 const darkTheme: Theme = responsiveFontSizes(
   createTheme({
@@ -39,7 +39,7 @@ const App: FC = () => {
     <StyledEngineProvider injectFirst>
       <CssBaseline />
       <ThemeProvider theme={darkTheme}>
-        <Main />
+        <TableRoute />
       </ThemeProvider>
     </StyledEngineProvider>
   );

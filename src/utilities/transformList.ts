@@ -2,8 +2,8 @@ import { RowInterface } from 'types/entityType';
 
 export default function transformList(
   rows: Array<RowInterface>,
-  level = 0,
-  parentId = 0
+  level: number,
+  parentId?: number
 ): Array<RowInterface> {
   const result: Array<RowInterface> = [];
 

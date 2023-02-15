@@ -21,7 +21,7 @@
 
     .levelCell {
       color: #fff;
-      width: max-content;
+      width: 13%;
       padding: 7px;
 
       .icon {
@@ -35,9 +35,7 @@
   
         position: relative;
 
-        .textIcon {
-          
-        }
+        transition: all .3s linear;
   
         .deleteIcon {
           display: block;
@@ -63,7 +61,7 @@
 
     .nameCell {
       color: #fff;
-      width: 45%;
+      width: 35%;
     }
 
     .bodyCell {
