@@ -18,3 +18,7 @@ This web-application shows how i write my code and use my knowledge to build res
 yarn
 yarn dev
 ```
+
+## Builded version:
+
+[7winds.neverovstepan.ru](http://7winds.neverovstepan.ru/)
