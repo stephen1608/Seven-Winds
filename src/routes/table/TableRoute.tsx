@@ -7,7 +7,7 @@ import Table from 'components/table';
 import MenuButton from 'components/menuButton';
 import Sidebar from 'components/sidebar';
 
-import classes from './tableRoute.module.scss';
+import classes from './TableRoute.module.scss';
 
 const Main: FC = () => {
   return (

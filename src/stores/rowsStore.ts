@@ -29,6 +29,7 @@ class RowsStore {
 
   constructor(rowsTree: Array<RowInterface> | [], loading: boolean) {
     makeObservable(this);
+
     this.rowsTree = rowsTree;
     this.loading = loading;
   }
@@ -36,15 +37,15 @@ class RowsStore {
   @action
   getRows = async (): Promise<RowInterface[]> => {
     let res = [] as RowInterface[];
+
     try {
       this.loading = true;
       const rows = await api.rows.getTreeRows();
 
       runInAction(() => {
-        this.rowsTree = rows;
+        this.rowsTree = transformList(rows, 0);
 
-        res = rows;
-        console.log(rows);
+        res = this.rowsTree;
       });
     } catch (error) {
       console.error(error);
@@ -66,6 +67,7 @@ class RowsStore {
     try {
       this.loading = true;
       const response = await api.rows.createRowInEntity(params);
+
       runInAction(() => {
         if (!response?.current) return;
 
@@ -74,18 +76,21 @@ class RowsStore {
 
           if (rowInd >= 0) {
             const currentRow = this.rowsTree[rowInd];
+
             this.rowsTree.splice(rowInd + 1, 0, {
               ...response.current,
               level: currentRow.level,
               parentId: currentRow.parentId
             });
           }
+
           resp = response?.current;
         } else {
           this.rowsTree.splice(0, 0, response?.current);
         }
 
         resp = response?.current;
+        this.getRows();
       });
     } catch (error) {
       console.error(error);
@@ -102,12 +107,14 @@ class RowsStore {
     try {
       this.loading = true;
       const response = await api.rows.updateRow(rowId, params);
+
       runInAction(() => {
         console.log(response);
         const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
 
         if (rowInd >= 0 && response?.current) {
           const currentRow = this.rowsTree[rowInd];
+
           this.rowsTree[rowInd] = {
             ...response.current,
             level: currentRow.level,
@@ -128,18 +135,21 @@ class RowsStore {
   deleteRow = async (rowId: number): Promise<void> => {
     try {
       this.loading = true;
-      const response = await api.rows.deleteRow(rowId);
+      await api.rows.deleteRow(rowId);
+
       runInAction(() => {
-        console.log(response);
+        this.getRows();
       });
     } catch (error) {
       console.error(error);
     } finally {
       runInAction(() => {
         const rowInd = this.rowsTree.findIndex((el) => el.id === rowId);
+
         if (rowInd >= 0) {
           this.rowsTree.splice(rowInd, 1);
         }
+
         this.loading = false;
       });
     }
@@ -148,5 +158,7 @@ class RowsStore {
 
 const rowsStoreInitial = new RowsStore([], false);
 const tree = await rowsStoreInitial.getRows();
-const rowsStore = new RowsStore(transformList(tree, 0), false);
+
+const rowsStore = new RowsStore(tree, false);
+
 export default rowsStore;

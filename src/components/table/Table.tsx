@@ -251,7 +251,7 @@ const Table: FC = () => {
                     }}
                   />
                 ) : (
-                  `${row.rowName}, id: ${row.id}`
+                  row.rowName
                 )}
               </TableCell>
               <TableCell align="left" className={classes.bodyCell}>

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import classes from './menuButton.module.scss';
+import classes from './MenuButton.module.scss';
 
 const MenuButton: FC = () => {
   return (

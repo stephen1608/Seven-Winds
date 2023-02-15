@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Box, Typography } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 
-import classes from './sidebar.module.scss';
+import classes from './Sidebar.module.scss';
 
 const data = [
   'По объекту',
