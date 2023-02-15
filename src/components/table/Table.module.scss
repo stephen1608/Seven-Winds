@@ -1,0 +1,80 @@
+.container {
+  width: 99%;
+  max-height: calc(100vh - 88px);
+
+  .headerRow {
+    height: 41px;
+
+    .headerCell {
+      padding-top: 0;
+      padding-bottom: 0;
+      background-color: #2b2c2f;
+    }
+  }
+
+  .bodyRow {
+    padding: 0;
+
+    &:last-child td, &:last-child th {
+      border: 0
+    }
+
+    .levelCell {
+      color: #fff;
+      width: 13%;
+      padding: 7px;
+
+      .icon {
+        padding: 10px;
+        opacity: 80%;
+        border-radius: 10px;
+  
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+  
+        position: relative;
+
+        transition: all .3s linear;
+
+        .textIcon {
+          color: #7890B2;
+        }
+  
+        .deleteIcon {
+          display: block;
+        }
+  
+        .hideDeleteIcon {
+          display: none;
+        }
+
+        .connectionLine {
+          position: absolute;
+          z-index: -1;
+          left: 5px;
+          bottom: 20px;
+          width: 8px;
+          height: 60px;
+          border: 1px solid #C6C6C6;
+          border-top: none;
+          border-right: none;
+
+        }
+      }
+    }
+
+    .nameCell {
+      color: #fff;
+      width: 35%;
+      padding: 9px;
+    }
+
+    .bodyCell {
+      color: #fff;
+      width: 13%;
+      padding: 9px;
+    }
+  }
+
+}

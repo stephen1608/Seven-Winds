@@ -35,6 +35,7 @@ export default {
   },
 
   async createRowInEntity(params: IProps): Promise<RowAddingFeedback | null> {
+    console.log(`body: ${JSON.stringify(params)}`);
     const response = await axios.post(
       `/v1/outlay-rows/entity/${envs.id}/row/create`,
       {
@@ -66,7 +67,7 @@ export default {
   },
 
   async deleteRow(rowId: number): Promise<RowAddingFeedback | null> {
-    const response = await axios.post(
+    const response = await axios.delete(
       `/v1/outlay-rows/entity/${envs.id}/row/${rowId}/delete`
     );
     if (response.status != 200) {
